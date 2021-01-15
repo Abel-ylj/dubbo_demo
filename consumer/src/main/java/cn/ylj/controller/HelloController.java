@@ -1,10 +1,12 @@
 package cn.ylj.controller;
 
-import cn.ylj.service.IHelloService;
+import cn.ylj.api.IHelloService;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
 
 /**
  * @author : yanglujian
@@ -15,7 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ResponseBody
 public class HelloController {
 
-    @Reference
+//    @Reference
+    @Resource
     private IHelloService helloService;
 
     @RequestMapping("/dubbo")

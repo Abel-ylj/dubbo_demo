@@ -100,4 +100,41 @@
             </dependency>
     ```
 
+- 提供方配置
+
+    ```xml
+        <!--每个dubbo应用(服务提供方和服务消费方)都必须指定一个唯一的名称-->
+        <dubbo:application name="dd_provider"></dubbo:application>
+        <!--指定服务的注册中心-->
+        <dubbo:registry address="zookeeper://121.4.53.107:2181"></dubbo:registry>
+        <!--配置协议和端口-->
+        <dubbo:protocol name="dubbo" port="20881"></dubbo:protocol>
     
+    ## 服务发布方式一：包扫描方式发布服务
+        <!--指定包扫描，用于发布dubbo服务-->
+        <dubbo:annotation package="cn.ylj.api.impl"></dubbo:annotation>
+    
+    ## 服务发布方式二：标签配置发布服务
+     <!-- 配置方式发布服务   -->
+        <bean id="helloService" class="cn.ylj.api.impl.HelloServiceImpl"></bean>
+        <!--  动态代理生成IHelloService代理类，目标对象是id="helloService"的bean，增强的功能是dubbo的功能 -->
+        <dubbo:service interface="cn.ylj.api.IHelloService" ref="helloService">				</dubbo:service>
+    ```
+
+- 消费方配置
+
+    ```xml
+    <dubbo:application name="consumer"></dubbo:application>
+    <dubbo:registry address="zookeeper://121.4.53.107:2181"></dubbo:registry>
+    
+    ## 服务获取方式一：
+    <dubbo:annotation package="cn.ylj.controller"></dubbo:annotation>
+    
+    ## 服务获取方式二：
+    ## 配置方式获取服务，dubbo会将生成代理对象在IoC容器中，使用服务和使用本地一样@Autowired就行
+    <dubbo:reference id="helloService" interface="cn.ylj.api.IHelloService"></dubbo:reference>
+        <context:component-scan base-package="cn.ylj.controller"></context:component-scan>
+    
+    <!-- 启动时服务未启动 消费端也能正常启: 项目部署时打开true   -->
+    <dubbo:consumer check="false"></dubbo:consumer>
+    ```

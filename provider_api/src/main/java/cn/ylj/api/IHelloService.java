@@ -1,4 +1,4 @@
-package cn.ylj.service;
+package cn.ylj.api;
 
 /**
  * @author : yanglujian

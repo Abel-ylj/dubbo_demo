@@ -1,6 +1,6 @@
-package cn.ylj.service.impl;
+package cn.ylj.api.impl;
 
-import cn.ylj.service.IHelloService;
+import cn.ylj.api.IHelloService;
 import com.alibaba.dubbo.config.annotation.Service;
 
 /**

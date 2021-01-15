@@ -20,8 +20,13 @@
     <dubbo:registry address="zookeeper://121.4.53.107:2181"></dubbo:registry>
     <!--配置协议和端口-->
     <dubbo:protocol name="dubbo" port="20881"></dubbo:protocol>
-    <!--指定包扫描，用于发布dubbo服务-->
-    <dubbo:annotation package="cn.ylj.service.impl"></dubbo:annotation>
+<!--    &lt;!&ndash;指定包扫描，用于发布dubbo服务&ndash;&gt;-->
+<!--    <dubbo:annotation package="cn.ylj.api.impl"></dubbo:annotation>-->
+
+    <!-- 配置方式发布服务   -->
+    <bean id="helloService" class="cn.ylj.api.impl.HelloServiceImpl"></bean>
+    <!--  动态代理生成IHelloService代理类，目标对象是id="helloService"的bean，增强的功能是dubbo的功能 -->
+    <dubbo:service interface="cn.ylj.api.IHelloService" ref="helloService"></dubbo:service>
 
 <!--    &lt;!&ndash;数据源&ndash;&gt;-->
 <!--    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">-->

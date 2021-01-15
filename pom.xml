@@ -25,11 +25,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>cn.ylj</groupId>
-            <artifactId>provider_api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!--   spring相关     -->
         <dependency>
             <groupId>org.springframework</groupId>
