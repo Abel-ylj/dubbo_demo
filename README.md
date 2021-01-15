@@ -179,5 +179,22 @@
 
 - Spring的@Transaction注解的原理是 创建JDK代理对象，而这个代理对象的全限定名为 `com.sun.proxy.$PrxyXX`, 而dubbo的@Service修饰后，发布服务会根据修饰的服务类的全限定名去找，就找不到了。服务发布就会失败。
 
+- 解决： 
+
+    1. 用cglib动态代理，代理后全限定名不变
+
+        ```xml
+        <!--  事务控制，创建事务动态代理对象用cglib  -->
+            <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"></tx:annotation-driven>
+        ```
+
+    2. 指定发布服务的类型(因为用cglib代理会用新的接口)
+
+        ```java
+        @Service(interfaceClass = IUserSerivce.class)
+        ```
+
+        
+
 
 

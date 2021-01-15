@@ -21,7 +21,7 @@
     <!--配置协议和端口-->
     <dubbo:protocol name="dubbo" port="20881"></dubbo:protocol>
     <!--指定包扫描，用于发布dubbo服务-->
-    <dubbo:annotation package="cn.ylj.api.impl"></dubbo:annotation>
+    <dubbo:annotation package="cn.ylj.api.impl" ></dubbo:annotation>
 
 <!--    &lt;!&ndash; 配置方式发布服务   &ndash;&gt;-->
 <!--    <bean id="helloService" class="cn.ylj.api.impl.HelloServiceImpl"></bean>-->
@@ -57,5 +57,6 @@
     </bean>
 
     <!--  事务的注解驱动,可以扫描@Transaction -->
-    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+    <!--  事务控制，创建事务动态代理对象用cglib  -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"></tx:annotation-driven>
 </beans>

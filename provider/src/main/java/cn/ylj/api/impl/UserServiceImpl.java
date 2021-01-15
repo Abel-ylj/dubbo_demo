@@ -13,7 +13,7 @@ import java.util.List;
  * @author : yanglujian
  * create at:  2021/1/15  4:45 下午
  */
-@Service
+@Service(interfaceClass = IUserSerivce.class)
 public class UserServiceImpl implements IUserSerivce {
 
     @Resource
@@ -24,7 +24,7 @@ public class UserServiceImpl implements IUserSerivce {
         return userMapper.findAll();
     }
 
-//    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void update() {
         UserEntity user = userMapper.selectByPrimaryKey(1);
