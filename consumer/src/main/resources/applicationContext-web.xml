@@ -17,12 +17,16 @@
 
     <dubbo:application name="consumer"></dubbo:application>
     <dubbo:registry address="zookeeper://121.4.53.107:2181"></dubbo:registry>
-<!--    <dubbo:annotation package="cn.ylj.controller"></dubbo:annotation>-->
+    <dubbo:annotation package="cn.ylj.controller"></dubbo:annotation>
 
-    <dubbo:reference id="helloService" interface="cn.ylj.api.IHelloService"></dubbo:reference>
-    <context:component-scan base-package="cn.ylj.controller"></context:component-scan>
+<!--    xml配置方式获取dobbo代理对象 -->
+<!--    <dubbo:reference id="helloService" interface="cn.ylj.api.IHelloService"></dubbo:reference>-->
+<!--    <context:component-scan base-package="cn.ylj.controller"></context:component-scan>-->
 
     <!-- 启动时服务未启动 消费端也能正常启   -->
     <dubbo:consumer check="true"></dubbo:consumer>
+
+<!--    注册三大组件 + jackson-->
+    <mvc:annotation-driven></mvc:annotation-driven>
 
 </beans>

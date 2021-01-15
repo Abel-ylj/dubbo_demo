@@ -17,8 +17,7 @@ import javax.annotation.Resource;
 @ResponseBody
 public class HelloController {
 
-//    @Reference
-    @Resource
+    @Reference
     private IHelloService helloService;
 
     @RequestMapping("/dubbo")

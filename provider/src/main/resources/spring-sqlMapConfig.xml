@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 该文件是sqlMapConfig.xml的副本，主要用来修剪配置，将其中的某些组件放到Spring中创建   -->
+
+    <!-- 类型别名 int double等Mybatis都已经内置了 -->
+    <typeAliases>
+        <typeAlias type="cn.ylj.entity.UserEntity" alias="user"></typeAlias>
+    </typeAliases>
+
+<!--    &lt;!&ndash;  注册类型处理器  &ndash;&gt;-->
+<!--    <typeHandlers>-->
+<!--        <typeHandler handler="cn.ylj.handler.DateTypeHandler"></typeHandler>-->
+<!--    </typeHandlers>-->
+
+    <!-- 分页插件 -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>
+</configuration>

@@ -20,26 +20,42 @@
     <dubbo:registry address="zookeeper://121.4.53.107:2181"></dubbo:registry>
     <!--配置协议和端口-->
     <dubbo:protocol name="dubbo" port="20881"></dubbo:protocol>
-<!--    &lt;!&ndash;指定包扫描，用于发布dubbo服务&ndash;&gt;-->
-<!--    <dubbo:annotation package="cn.ylj.api.impl"></dubbo:annotation>-->
+    <!--指定包扫描，用于发布dubbo服务-->
+    <dubbo:annotation package="cn.ylj.api.impl"></dubbo:annotation>
 
-    <!-- 配置方式发布服务   -->
-    <bean id="helloService" class="cn.ylj.api.impl.HelloServiceImpl"></bean>
-    <!--  动态代理生成IHelloService代理类，目标对象是id="helloService"的bean，增强的功能是dubbo的功能 -->
-    <dubbo:service interface="cn.ylj.api.IHelloService" ref="helloService"></dubbo:service>
+<!--    &lt;!&ndash; 配置方式发布服务   &ndash;&gt;-->
+<!--    <bean id="helloService" class="cn.ylj.api.impl.HelloServiceImpl"></bean>-->
+<!--    &lt;!&ndash;  动态代理生成IHelloService代理类，目标对象是id="helloService"的bean，增强的功能是dubbo的功能 &ndash;&gt;-->
+<!--    <dubbo:service interface="cn.ylj.api.IHelloService" ref="helloService"></dubbo:service>-->
 
-<!--    &lt;!&ndash;数据源&ndash;&gt;-->
-<!--    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">-->
-<!--        <property name="username" value="root" />-->
-<!--        <property name="password" value="root" />-->
-<!--        <property name="driverClassName" value="com.mysql.jdbc.Driver" />-->
-<!--        <property name="url" value="jdbc:mysql://localhost:3306/test" />-->
-<!--    </bean>-->
-<!--    &lt;!&ndash; 事务管理器  &ndash;&gt;-->
-<!--    <bean id="transactionManager"-->
-<!--          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-<!--        <property name="dataSource" ref="dataSource"/>-->
-<!--    </bean>-->
-<!--    &lt;!&ndash;开启事务控制的注解支持&ndash;&gt;-->
-<!--    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>-->
+<!--  Mybatis -->
+    <!--  加载外部properties属性文件  -->
+    <context:property-placeholder location="classpath:jdbc.properties"></context:property-placeholder>
+    <!--    注入SqlSessionFactory对象-->
+    <bean id="ds" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="ds"></property>
+        <!--  加载核心配置文件  -->
+        <property name="configLocation" value="classpath:spring-sqlMapConfig.xml"></property>
+    </bean>
+
+    <!-- 扫描mapper接口，创建代理sqlSession的动态代理对象，在核心配置文件中也能配，但是Mybatis给出了兼容spring的配置类 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--  扫描完这个包，IoC容器中就有代理类了 -->
+        <property name="basePackage" value="cn.ylj.mapper"></property>
+    </bean>
+
+
+<!--    事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="ds"></property>
+    </bean>
+
+    <!--  事务的注解驱动,可以扫描@Transaction -->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
 </beans>

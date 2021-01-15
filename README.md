@@ -138,3 +138,46 @@
     <!-- 启动时服务未启动 消费端也能正常启: 项目部署时打开true   -->
     <dubbo:consumer check="false"></dubbo:consumer>
     ```
+
+
+
+## dubbo传输协议简介
+
+- 传输协议一般在服务的提供方配置
+
+- 其中Dubbo支持的有：dubbo,rmi,hessian,http,webservice,redis等
+
+- dubbo推荐的是dubbo协议，采用了单一长连接和NIO异步通讯
+
+    适用于
+
+    1. 小数据量，大并发的服务调用
+    2. 消费者机器 远远大于服务者机器的场景
+
+    不适合
+
+    1. 传大文件，视频等业务场景
+
+- 当然可以给每一个RPC服务指定 传输的协议
+
+## 负载均衡 (Load Balance)
+
+- dubbo使用的软负载均衡，不是像nginx一样，有个中心去分配请求
+
+    而是由服务的双方根据请求的响应情况，自动协调。
+
+- 负载均衡策略：1. 随机(默认) 2.轮询 3.最少活跃 3.一致性hash
+
+    ```java
+    @Service(loadbalance = "random")
+    public class HelloServiceImpl implements HelloService{
+      
+    }
+    ```
+
+## Dubbo RPC过程的事务控制
+
+- Spring的@Transaction注解的原理是 创建JDK代理对象，而这个代理对象的全限定名为 `com.sun.proxy.$PrxyXX`, 而dubbo的@Service修饰后，发布服务会根据修饰的服务类的全限定名去找，就找不到了。服务发布就会失败。
+
+
+
