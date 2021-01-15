@@ -54,6 +54,13 @@
     ./zkServer.sh start
     ```
 
+
+
+## 监控服务部署
+
+- 将监控war包部署后，配置dubbo.properties文件中zk的地址，启动后会自动监控
+- http://121.4.53.107:8080/dubbo-admin-2.6.0/
+
 ## 使用
 
 - 导坐标
